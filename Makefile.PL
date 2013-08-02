@@ -280,8 +280,9 @@ sub try_to_autoconfigure {
   ($$lib_gd_path = $libdir) =~ s!/[^/]+$!!;
   $$options      = $features;
 
-  my ($minor)    = $version =~ /^2\.\d+\.(\d+)$/;
-  $$options     .= " GD_UNCLOSEDPOLY GD_ANIMGIF GD_FTCIRCLE VERSION_33" if defined($minor) && $minor >= 33;
+  my ($minor, $patch) = $version =~ /^2\.(\d+)\.(\d+)$/;
+  $$options     .= " GD_UNCLOSEDPOLY GD_ANIMGIF GD_FTCIRCLE VERSION_33"
+    if defined($minor) && ($minor >= 1 || $patch >= 33);
 
   my @correct_inc = map {s/^-I// && $_} split /\s+/,$cflags;
   check_for_stray_headers(@correct_inc);
